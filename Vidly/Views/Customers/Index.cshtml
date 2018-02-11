@@ -1,4 +1,5 @@
-﻿@model Vidly.ViewModels.RandomMovieViewModel
+﻿@using Vidly.Models
+@model List<Customer>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +7,7 @@
 
 <h2>Customers</h2>
 
-@if (Model.Customers.Count == 0)
+@if (Model.Count == 0)
 {
     <text>There are no customers at this time.</text>
 }
@@ -21,11 +22,11 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var customer in Model.Customers)
+            @foreach (var customer in Model)
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(customer.Name, "Details", "Customers", new { id = customer.Id }, null)
+                        @Html.ActionLink(customer.Name, "Details", "Customers", new { id = customer.CustomerId }, null)
                     </td>
                 </tr>
             }

@@ -42,7 +42,7 @@ namespace Vidly.Controllers
 
         public ActionResult Index()
         {
-            var viewModel = new MoviesViewModel
+            var viewModel = new VidlyViewModel
             {
                 Movies = movieList
             };
