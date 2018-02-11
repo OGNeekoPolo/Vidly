@@ -29,6 +29,8 @@ namespace Vidly.Controllers
 
         #endregion
 
+        #region Actions
+
         // GET: Customers
         public ActionResult Index()
         {
@@ -54,5 +56,25 @@ namespace Vidly.Controllers
             return View(customer);
 
         }
+
+        public ActionResult New()
+        {
+            var membershipTypes = _context.MemberShipTypes.ToList();
+
+            var viewModel = new NewCustomerViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(NewCustomerViewModel viewModel)
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

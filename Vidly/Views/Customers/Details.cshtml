@@ -5,7 +5,7 @@
 }
 
 @{
-    var birthDate = Model.Birthdate != null ? Model.Birthdate.Value.ToShortDateString() : null;
+    var birthDate = Model.Birthdate?.ToShortDateString();
 }
 
 
