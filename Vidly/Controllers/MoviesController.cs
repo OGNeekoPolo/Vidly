@@ -10,6 +10,13 @@ namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
+
+        List<Movie> movieList = new List<Movie>
+        {
+            new Movie { Id = 1, Name = "Shrek"},
+            new Movie { Id = 2, Name = "Wall-E"}
+        };
+
         // GET: Movies/Random
         public ActionResult Random()
         {
@@ -37,6 +44,34 @@ namespace Vidly.Controllers
         public ActionResult ByReleaseDate(int year, int month)
         {
             return Content(year + "/" + month);
+        }
+
+        public ActionResult Index()
+        {
+            var viewModel = new MoviesViewModel
+            {
+                Movies = movieList
+            };
+
+            return View(viewModel);
+        }
+
+        public ActionResult Details(int id)
+        {
+            foreach (var movie in movieList)
+            {
+                if (movie.Id == id)
+                {
+                    var viewMovie = new Movie
+                    {
+                        Name = movie.Name,
+                        Id = movie.Id
+                    };
+
+                    return View(viewMovie);
+                }
+            }
+            return HttpNotFound("Movie does not exist");
         }
     }
 }
