@@ -12,8 +12,8 @@ namespace Vidly.Controllers
     {
         List<Customer> customers = new List<Customer>
         {
-            new Customer { Name = "John Smith", Id = 1},
-            new Customer { Name = "Mary Williams", Id = 2}
+            new Customer { Name = "John Smith", CustomerId = 1},
+            new Customer { Name = "Mary Williams", CustomerId = 2}
         };
 
 
@@ -36,12 +36,12 @@ namespace Vidly.Controllers
 
             foreach (var customer in customers)
             {
-                if (id == customer.Id)
+                if (id == customer.CustomerId)
                 {
                     var viewCustomer = new Customer
                     {
                         Name = customer.Name,
-                        Id = customer.Id
+                        CustomerId = customer.CustomerId
                     };
 
                     return View(viewCustomer);
