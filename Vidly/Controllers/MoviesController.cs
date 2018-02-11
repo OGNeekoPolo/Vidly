@@ -5,67 +5,51 @@ using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
 using Vidly.ViewModels;
+using Vidly.Data;
+using System.Data.Entity;
 
 namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
+        #region Declarations
+        private VidlyDbContext _context;
 
-        List<Movie> movieList = new List<Movie>
+        public MoviesController()
         {
-            new Movie { MovieId = 1, Name = "Shrek"},
-            new Movie { MovieId = 2, Name = "Wall-E"}
-        };
-
-        // GET: Movies/Random
-        public ActionResult Random()
-        {
-            var movie = new Movie
-            {
-                Name = "Shrek!"
-            };
-
-            var customers = new List<Customer>
-            {
-                new Customer { Name = "Customer 1"},
-                new Customer { Name = "Customer 2"}
-            };
-
-            var viewModel = new RandomMovieViewModel
-            {
-                Movie = movie,
-                Customers = customers
-            };
-
-            return View(viewModel);
+            _context = new VidlyDbContext();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
+        #endregion
+
+
+        // GET: Movies
         public ActionResult Index()
         {
-            var viewModel = new VidlyViewModel
-            {
-                Movies = movieList
-            };
+            var movies = _context.Movies
+                .Include(c => c.MovieGenre)
+                .ToList();
 
-            return View(viewModel);
+            return View(movies);
         }
 
         public ActionResult Details(int id)
         {
-            foreach (var movie in movieList)
-            {
-                if (movie.MovieId == id)
-                {
-                    var viewMovie = new Movie
-                    {
-                        Name = movie.Name,
-                        MovieId = movie.MovieId
-                    };
 
-                    return View(viewMovie);
-                }
-            }
-            return HttpNotFound("Movie does not exist");
+            var movie = _context.Movies
+                .Include(y => y.MovieGenre)
+                .FirstOrDefault(x => x.MovieId == id);
+
+            if (movie != null)
+                return View(movie);
+
+            return HttpNotFound(" -- Movie does not exist --");
+
         }
     }
 }

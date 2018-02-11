@@ -14,5 +14,7 @@ namespace Vidly.Data
         public DbSet<Customer> Customers { get; set; }
 
         public DbSet<MembershipType> MemberShipTypes { get; set; }
+
+        public DbSet<MovieGenre> MovieGenres { get; set; }
     }
 }
