@@ -7,6 +7,7 @@ using Vidly.Models;
 using Vidly.ViewModels;
 using Vidly.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace Vidly.Controllers
 {
@@ -49,6 +50,73 @@ namespace Vidly.Controllers
                 return View(movie);
 
             return HttpNotFound(" -- Movie does not exist --");
+
+        }
+
+        public ActionResult New()
+        {
+            var movieGenres = _context.MovieGenres.ToList();
+
+            var viewModel = new MovieFormViewModel
+            {
+                MovieGenres = movieGenres
+            };
+
+            return View("MovieForm", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Save(Movie movie)
+        {
+            if (movie.MovieId == 0)
+            {
+                movie.DateAdded = DateTime.Today;
+
+                _context.Movies.Add(movie);
+
+            }
+            else
+            {
+                var movieInDb = _context.Movies.Single(c => c.MovieId == movie.MovieId);
+
+                movieInDb.Name = movie.Name;
+                movieInDb.ReleaseDate = movie.ReleaseDate;
+                movieInDb.MovieGenreId = movie.MovieGenreId;
+                movieInDb.Stock = movie.Stock;
+
+            }
+
+            try
+            {
+                _context.SaveChanges();
+
+            }
+            catch (DbEntityValidationException e)
+            {
+
+                Console.WriteLine(e);
+            }
+            return RedirectToAction("Index", "Movies");
+
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var movie = _context.Movies
+                .SingleOrDefault(c => c.MovieId == id);
+
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new MovieFormViewModel
+            {
+                Movie = movie,
+                MovieGenres = _context.MovieGenres.ToList()
+            };
+
+            return View("MovieForm", viewModel);
 
         }
     }

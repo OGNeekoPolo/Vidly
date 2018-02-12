@@ -5,8 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Movie List</h2>
-
+<h2>Movies</h2>
+<div>
+    @Html.ActionLink("New Movie", "New", "Movies", null, new { @class = "btn btn-primary" })
+</div>
+<br />
 @if (Model.Count < 1)
 {
     <text>There are no movies to show at this time.</text>
@@ -25,7 +28,7 @@ else
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(movie.Name, "Details", "Movies", new { id = movie.MovieId }, null)
+                        @Html.ActionLink(movie.Name, "Edit", "Movies", new { id = movie.MovieId }, null)
                     </td>
                     <td>
                         @movie.MovieGenre.GenreName
