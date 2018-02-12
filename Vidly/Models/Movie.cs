@@ -25,8 +25,9 @@ namespace Vidly.Models
         [Required]
         public DateTime DateAdded { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Stock must be between 1 and 20.")]
         [Display(Name = "Number In Stock")]
+        [Range(1, 20)]
         public int Stock { get; set; }
     }
 }

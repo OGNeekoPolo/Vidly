@@ -57,6 +57,7 @@ namespace Vidly.Controllers
 
         }
 
+
         public ActionResult New()
         {
             var membershipTypes = _context.MemberShipTypes.ToList();
@@ -71,6 +72,7 @@ namespace Vidly.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer)
         {
             if (!ModelState.IsValid)
